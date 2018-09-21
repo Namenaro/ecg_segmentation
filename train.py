@@ -1,8 +1,10 @@
 import os
+
 from sklearn.model_selection import train_test_split
+
 from dataset import load_dataset
 from generator import generator
-from model import make_model
+from models.model import make_model
 from utils import *
 
 xy = load_dataset()
