@@ -17,7 +17,7 @@ test_set = next(generator(X=X_test, Y=Y_test, win_len=win_len, batch_size=300, n
 
 print (test_set[0].shape)
 
-model = make_model(win_len, num_leads_signal)
+model = make_model(num_leads_signal)
 model.summary()
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
 

@@ -15,7 +15,7 @@ from keras.models import (
     Sequential, load_model
 )
 
-def make_model(win_len, num_leads_signal):
+def make_model(num_leads_signal):
     model = Sequential()
 
     model.add(Conv1D(32, kernel_size=8,
