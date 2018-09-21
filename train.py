@@ -4,6 +4,7 @@ from dataset import load_dataset
 from generator import generator
 from model import make_model
 from utils import *
+from metrics import Metrics
 
 xy = load_dataset()
 X = xy["x"]
@@ -19,7 +20,8 @@ print (test_set[0].shape)
 
 model = make_model(win_len, num_leads_signal)
 model.summary()
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy')
+metric = Metrics()
+model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics = ['accuracy', metric.Se])
 
 history = model.fit_generator(train_generator,
                     epochs=5,
