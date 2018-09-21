@@ -15,12 +15,12 @@ from keras.models import (
     Sequential, load_model
 )
 
-def make_model(win_len, num_leads_signal):
+def make_model(num_leads_signal):
     model = Sequential()
 
     model.add(Conv1D(32, kernel_size=8,
                      activation=K.elu,
-                     input_shape=(win_len, num_leads_signal), padding='same'))
+                     input_shape=(None, num_leads_signal), padding='same'))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Conv1D(32, kernel_size=8, activation=K.elu, padding='same'))
     model.add(MaxPooling1D(pool_size=2))

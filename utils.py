@@ -37,22 +37,25 @@ def draw_prediction_and_reality(ecg_signal, prediction, right_answer, plot_name)
     :return:
     """
     figname = plot_name + "_.png"
-
-    f, (ax1, ax2, ax3) = plt.subplots(1, 3, sharey=True, sharex=True)
+    print(ecg_signal.shape)
+    print(prediction.shape)
+    print(right_answer.shape)
+    f, (ax1, ax2) = plt.subplots(2, 1, sharey=False, sharex=True, figsize=(20, 5))
     x = range(0, len(ecg_signal))
 
-    ax1.fill_between(x, 0, prediction[:,0], where=prediction[:,0]>0.5, label="мнение сети",facecolor='green',alpha=0.5 )
-    ax2.fill_between(x, 0, prediction[:,1], where=prediction[:,1]>0.5,label="мнение сети.",facecolor='green',alpha=0.5)
-    ax3.fill_between(x, 0, prediction[:,2], where=prediction[:,2]>0.5, label="мнение сети.",facecolor='green',alpha=0.5)
+    ax1.plot(ecg_signal[:,0], color='black')
 
-    ax2.plot(prediction[:,0], 'k-', label="сырой отв.")
-    ax2.plot(prediction[:,1], 'r-', label="сырой отв.")
-    ax2.plot(prediction[:,2], 'g-', label="сырой отв.")
+    ax1.fill_between(x, 0, 100, where=right_answer[:, 0]>0.5, alpha=0.5, color='red')
+    ax1.fill_between(x, 0, 100, where=right_answer[:, 1]>0.5, alpha=0.5, color='green')
+    ax1.fill_between(x, 0, 100, where=right_answer[:, 2]>0.5, alpha=0.5, color='blue')
 
+    ax1.fill_between(x, 120, 220, where=prediction[:, 0] > 0.5, alpha=0.8, color='red')
+    ax1.fill_between(x, 120, 220, where=prediction[:, 1] > 0.5, alpha=0.8, color='green')
+    ax1.fill_between(x, 120, 220, where=prediction[:, 2] > 0.5, alpha=0.8, color='blue')
 
-    ax1.fill_between(x,0,right_answer[:,0], alpha=0.5, label="правильн.отв.", facecolor='red')
-    ax2.fill_between(x,0,right_answer[:,1], alpha=0.5, label="правильн.отв.", facecolor='red')
-    ax3.fill_between(x,0,right_answer[:,2], alpha=0.5, label="правильн.отв.", facecolor='red')
+    ax2.plot(prediction[:,0], 'r-')
+    ax2.plot(prediction[:,1], 'g-')
+    ax2.plot(prediction[:,2], 'b-')
 
     plt.legend(loc=2)
     plt.savefig(figname)

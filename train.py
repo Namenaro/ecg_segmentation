@@ -1,8 +1,10 @@
 import os
+
 from sklearn.model_selection import train_test_split
+
 from dataset import load_dataset
 from generator import generator
-from model import make_model
+from models.model import make_model
 from utils import *
 from metrics import Metrics
 
@@ -18,7 +20,7 @@ test_set = next(generator(X=X_test, Y=Y_test, win_len=win_len, batch_size=300, n
 
 print (test_set[0].shape)
 
-model = make_model(win_len, num_leads_signal)
+model = make_model(num_leads_signal)
 model.summary()
 metric = Metrics()
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics = ['accuracy', metric.Se])
