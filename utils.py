@@ -6,6 +6,8 @@ def save_history(history, name):
     name = "./pics/"+name
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
+    plt.plot(history.history['Se'])
+    plt.plot(history.history['val_Se'])
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')

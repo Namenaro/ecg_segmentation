@@ -25,8 +25,9 @@ model.summary()
 metric = Metrics()
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics = ['accuracy', metric.Se])
 
+
 history = model.fit_generator(train_generator,
-                    epochs=5,
+                    epochs=10,
                     steps_per_epoch=10,
                     validation_data=(test_set[0], test_set[1]))
 
