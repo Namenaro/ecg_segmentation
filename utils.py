@@ -11,7 +11,7 @@ def save_history(history, name):
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train loss', 'test loss', 'train se','test se'], loc='upper left')
     plt.savefig(name+"_loss.png")
     plt.clf()
 
