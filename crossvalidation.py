@@ -62,7 +62,7 @@ if __name__ == "__main__":
     X = xy["x"]
     Y = xy["y"]
 
-    result= make_crossvalidation(kfold_splits=2,
+    result= make_crossvalidation(kfold_splits=3,
                          create_model=model_c.make_model,
                          X=X, Y=Y,
                          win_len=win_len,
