@@ -12,10 +12,11 @@ def save_history(history, name):
     plt.plot(history.history['val_loss'])
     plt.plot(history.history['Se'])
     plt.plot(history.history['val_Se'])
+    plt.plot(history.history['val_PPV'])
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.legend(['train loss', 'test loss', 'train se','test se'], loc='upper left')
+    plt.legend(['train loss', 'test loss', 'train se','test se', 'val ppv'], loc='upper left')
     plt.savefig(os.path.join(folder_name, name+"_loss.png"))
     plt.clf()
 

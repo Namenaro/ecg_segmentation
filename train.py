@@ -44,4 +44,4 @@ if __name__ == "__main__":
           y_train=Y_train,
           win_len=win_len,
           batch_size=10,
-          epochs=13)
+          epochs=2)

@@ -44,5 +44,5 @@ def make_model():
     model.add(Dense(4, activation='softmax'))
 
     metric = Metrics()
-    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy', metric.Se])
+    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy', metric.Se, metric.PPV])
     return model

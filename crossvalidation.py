@@ -22,6 +22,8 @@ def make_crossvalidation(kfold_splits, create_model, X, Y, win_len, model_name, 
     arr_val_Se = []
     arr_loss = []
     arr_val_loss = []
+    arr_PPV = []
+    arr_val_PPV = []
 
     for index, (train_indices, val_indices) in enumerate(indices):
         xtrain, xtest = X[train_indices], X[val_indices]
@@ -45,8 +47,12 @@ def make_crossvalidation(kfold_splits, create_model, X, Y, win_len, model_name, 
         arr_val_loss.append(history.history['val_loss'][-1])
         arr_Se.append(history.history['Se'][-1])
         arr_val_Se.append(history.history['val_Se'][-1])
+        arr_PPV.append(history.history['PPV'][-1])
+        arr_val_PPV.append(history.history['val_PPV'][-1])
     result = {"avg_loss": np.array(arr_loss).mean(),
               "avg_val_loss" : np.array(arr_val_loss).mean(),
+              "avg_PPV": np.array(arr_PPV).mean(),
+              "avg_val_PPV": np.array(arr_val_PPV).mean(),
               "avg_se": np.array(arr_Se).mean(),
               "avg_val_se" : np.array(arr_val_Se).mean()}
     return result
