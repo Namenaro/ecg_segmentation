@@ -1,18 +1,23 @@
+import os
 import matplotlib.pyplot as plt
 import pickle as pkl
 import numpy as np
 
 def save_history(history, name):
-    name = "./pics/"+name
+    folder_name = "pics"
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
+
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
     plt.plot(history.history['Se'])
     plt.plot(history.history['val_Se'])
+    plt.plot(history.history['val_PPV'])
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.savefig(name+"_loss.png")
+    plt.legend(['train loss', 'test loss', 'train se','test se', 'val ppv'], loc='upper left')
+    plt.savefig(os.path.join(folder_name, name+"_loss.png"))
     plt.clf()
 
 def restore_set_from_pkl(path):
@@ -61,3 +66,4 @@ def draw_prediction_and_reality(ecg_signal, prediction, right_answer, plot_name)
 
     plt.legend(loc=2)
     plt.savefig(figname)
+    plt.clf()
