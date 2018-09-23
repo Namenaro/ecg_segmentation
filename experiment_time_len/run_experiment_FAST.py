@@ -36,7 +36,7 @@ arr_results = []
 
 for win_len in time_lens:
     logging.info("start win_len= " + str(win_len)+ " at " + str(time.ctime()))
-    model = modela.create_model()
+    model = modela.make_model()
     model_name = "modela_"+ str(win_len)
     xtrain, xtest, ytrain, ytest = train_test_split(X, Y, test_size=0.33, random_state=42)
     history = train(model,
