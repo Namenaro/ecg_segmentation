@@ -10,7 +10,7 @@ import BaselineWanderRemoval as bwr
 
 # Порядок отведений
 leads_names = ['i', 'ii', 'iii', 'avr', 'avl', 'avf', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6']
-pkl_filename = "dataset_fixed_baseline.pkl"
+pkl_filename = "C:\\ecg_new\\dataset_fixed_baseline.pkl"
 FREQUENCY_OF_DATASET = 500
 raw_dataset_path="C:\\ecg_new\\ecg_data_200.json"
 
@@ -94,7 +94,8 @@ def load_dataset(raw_dataset=raw_dataset_path, fixed_baseline=True):
     :return:
     """
     if fixed_baseline is True:
-        if os.path.isfile(pkl_filename): # если файл с предобработанным датасетом уже есть, не выполняем предобработку
+        print("you selected FIXED BASELINE WANDERING")
+        if os.path.exists(pkl_filename): # если файл с предобработанным датасетом уже есть, не выполняем предобработку
             infile = open(pkl_filename, 'rb')
             dataset_with_fixed_baseline = pkl.load(infile)
             infile.close()
@@ -106,7 +107,8 @@ def load_dataset(raw_dataset=raw_dataset_path, fixed_baseline=True):
             dataset_with_fixed_baseline = pkl.load(infile)
             infile.close()
             return dataset_with_fixed_baseline
-    else:  # если предобаботка не нужна
+    else:
+        print("you selected NOT fixied BASELINE WANDERING")
         return load_raw_dataset(raw_dataset)
 
 if __name__ == "__main__":

@@ -145,7 +145,7 @@ def statistics(y_true, y_pred):
     df_res = pd.DataFrame(
         {'start_p': [0.0, 0.0, 0.0, 0.0], 'end_p': [0.0, 0.0, 0.0, 0.0], 'start_qrs': [0.0, 0.0, 0.0, 0.0],
          'end_qrs': [0.0, 0.0, 0.0, 0.0], 'start_t': [0.0, 0.0, 0.0, 0.0], 'end_t': [0.0, 0.0, 0.0, 0.0]},
-        index=['Se', 'PPV', 'm', 'σ^2'])
+        index=['Se', 'PPV', 'm', 'sigma^2'])
     df_stat = pd.DataFrame(
         {'start_p': [0, 0, 0], 'end_p': [0, 0, 0], 'start_qrs': [0, 0, 0], 'end_qrs': [0, 0, 0], 'start_t': [0, 0, 0],
          'end_t': [0, 0, 0]}, index=['tp', 'fp', 'fn'])
@@ -197,7 +197,7 @@ def statistics(y_true, y_pred):
     for index in df_res.columns:
         df_res.at['Se', index] = df_stat.loc['tp', index] / (df_stat.loc['tp', index] + df_stat.loc['fn', index])
         df_res.at['PPV', index] = df_stat.loc['tp', index] / (df_stat.loc['tp', index] + df_stat.loc['fp', index])
-        df_res.at['σ^2', index] = np.var(df_errors.loc[0, index]) * 1000
+        df_res.at['sigma^2', index] = np.var(df_errors.loc[0, index]) * 1000
         df_res.at['m', index] = np.mean(df_errors.loc[0, index]) * 1000
     return df_res
 

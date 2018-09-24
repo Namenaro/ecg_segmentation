@@ -3,60 +3,94 @@ import time
 import shutil
 import logging
 import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 from experiment_convolutions.models import *
-
 from crossvalidation import make_crossvalidation
 from dataset import load_dataset
+from train import train
+from metrics import statistics
 
-folder_for_results = "experiment_convolutions_results"
+def RUN():
+    experiment_res_name = "experiment_convolutions_results"
 
-logging.basicConfig(filename='log.log',level=logging.DEBUG)
+    # модели участвующие в эксперименте
+    arr_models = {
+        model_a.make_model: "model a",
+        model_b.make_model: "model b"
 
-# модели участвующие в эксперименте
-arr_models = {
-    model_a.make_model:"model a",
-    model_b.make_model:"model b",
-    model_c.make_model:"model c",
-    modeld.make_model:"d",
-    modele.make_model:"e",
-    modelf.make_model:"f",
-    modelj.make_model:"j",
-}
+    }
 
-# создает отлельную папку под результаты эксперимента и делаем ее на время умолчательной
-cwd = os.getcwd()
-if os.path.exists(folder_for_results) and os.path.isdir(folder_for_results):
-    shutil.rmtree(folder_for_results)
+    logging.basicConfig(filename='log.log',level=logging.DEBUG)
+    logging.info(experiment_res_name)
 
-os.makedirs(folder_for_results)
-os.chdir(folder_for_results)
+    xy = load_dataset()
+    X = xy["x"]
+    Y = xy["y"]
 
-# параметры эксперимента
-win_len = 3072
-batch_size=10
-epochs=13
-xy = load_dataset()
-X = xy["x"]
-Y = xy["y"]
+    # создает отлельную папку под результаты эксперимента и делаем ее на время умолчательной
+    cwd = os.getcwd()
+    if os.path.exists(experiment_res_name) and os.path.isdir(experiment_res_name):
+        shutil.rmtree(experiment_res_name)
 
-arr_results = []
-# эксперимент - кроссвалидация по всем моделям
-for make_model, model_description in arr_models.items():
-    logging.info("start crossvalidation " + model_description + " at " + str(time.ctime()))
-    result= make_crossvalidation(kfold_splits=4,
-                         create_model=make_model,
-                         X=X, Y=Y,
-                         win_len=win_len,
-                         model_name=model_description,
-                         batch_size=batch_size,
-                         epochs=epochs)
-    logging.info(str(result))
-    arr_results.append(result)
+    os.makedirs(experiment_res_name)
+    os.chdir(experiment_res_name)
 
-# сохраняем результаты в файл
-table_results = pd.DataFrame(arr_results)
-table_results.to_csv('convolution_experiment_results.txt', header=True, index=True, sep='\t', mode='a')
+    # common parameters in all models:
+    win_len = 3072
+    batch_size=3
+    epochs=1
 
-print(table_results)
-os.chdir(cwd)
+
+    arr_summaries = []
+    stats_dict = {}
+    xtrain, xtest, ytrain, ytest = train_test_split(X, Y, test_size=0.33, random_state=42)
+
+    # iterate through all the models...
+    for make_model, model_description in arr_models.items():
+        try:
+            model = None
+            model = make_model()
+
+            history = train(model,
+                            model_name=model_description,
+                            x_test=xtest,
+                            x_train=xtrain,
+                            y_test=ytest,
+                            y_train=ytrain,
+                            win_len=win_len,
+                            batch_size=batch_size,
+                            epochs=epochs)
+
+            summary = {"model_name": model_description,
+                      "loss": history.history['loss'][-1],
+                      "val_loss": history.history['val_loss'][-1],
+                      "PPV": history.history['PPV'][-1],
+                      "val_PPV": history.history['val_PPV'][-1],
+                      "se": history.history['Se'][-1],
+                      "val_se": history.history['val_Se'][-1]}
+        except Exception:
+            logging.error("ERROR OCCURED IN MODEL " + model_description)
+            continue
+
+        logging.info(str(summary))
+        arr_summaries.append(summary)
+
+        pred_test = np.array(model.predict(xtest))
+        stats = statistics(ytest[:, 1000:4000], pred_test[:, 1000:4000]).round(2)
+        stats_dict[model_description] = stats
+        stats.to_csv("stats_"+model_description + '.csv')
+        print(stats)
+
+    # save results into file:
+    table_summaries = pd.DataFrame(arr_summaries)
+    table_summaries.to_csv(experiment_res_name+'.txt', header=True, index=True, sep='\t', mode='a')
+    logging.info("STATISTICS------------------------------------------------------")
+    logging.info(stats_dict)
+    print(table_summaries)
+    os.chdir(cwd)
+
+
+if __name__ == "__main__":
+    RUN()
