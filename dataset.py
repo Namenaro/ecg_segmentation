@@ -6,12 +6,16 @@ import matplotlib.pyplot as plt
 import pyedflib
 import numpy as np
 import pickle as pkl
+import BaselineWanderRemoval as bwr
 
 # Порядок отведений
 leads_names = ['i', 'ii', 'iii', 'avr', 'avl', 'avf', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6']
+pkl_filename = "dataset_fixed_baseline.pkl"
+FREQUENCY_OF_DATASET = 500
+raw_dataset_path="C:\\ecg_new\\ecg_data_200.json"
 
-def load_dataset(description_data="C:\\ecg_new\\ecg_data_200.json"):
-    with open(description_data, 'r') as f:
+def load_raw_dataset(raw_dataset):
+    with open(raw_dataset, 'r') as f:
         data = json.load(f)
     X=[]
     Y=[]
@@ -66,6 +70,46 @@ def get_background(p, qrs, t):
             background[i]=1
     return background
 
+def fix_baseline_and_save_to_pkl(xy):
+    print("start fixing baseline in the whole dataset. It may take some time, wait...")
+    X= xy["x"]
+    for i in range(X.shape[0]):
+        print(str(i))
+
+        for j in range(X.shape[2]):
+            X[i, :, j] = bwr.fix_baseline_wander(X[i, :, j], FREQUENCY_OF_DATASET)
+    xy['x']=X
+    outfile = open(pkl_filename, 'wb')
+    pkl.dump(xy, outfile)
+    outfile.close()
+    print("dataset saved, number of pacients = " + str(len(xy['x'])))
+
+
+def load_dataset(raw_dataset=raw_dataset_path, fixed_baseline=True):
+    """
+    при первом вызове с параметром fixed_baseline=True может работать очень долго, т.к. выполняет предобработку -
+    затем резуотат предобрабоки сохраняется, чтоб не делать эту трудоемкую операцию много раз
+    :param raw_dataset:
+    :param fixed_baseline: флаг, нужно ли с выровненным дрейфом изолинии
+    :return:
+    """
+    if fixed_baseline is True:
+        if os.path.isfile(pkl_filename): # если файл с предобработанным датасетом уже есть, не выполняем предобработку
+            infile = open(pkl_filename, 'rb')
+            dataset_with_fixed_baseline = pkl.load(infile)
+            infile.close()
+            return dataset_with_fixed_baseline
+        else:
+            xy = load_raw_dataset(raw_dataset) # если файл с обработанным датасетом еще не создан, создаем
+            fix_baseline_and_save_to_pkl(xy)
+            infile = open(pkl_filename, 'rb')
+            dataset_with_fixed_baseline = pkl.load(infile)
+            infile.close()
+            return dataset_with_fixed_baseline
+    else:  # если предобаботка не нужна
+        return load_raw_dataset(raw_dataset)
+
 if __name__ == "__main__":
     xy = load_dataset()
+    print(xy)
 
