@@ -47,9 +47,9 @@ X = xy["x"]
 Y = xy["y"]
 X_noise = np.copy(X)
 
-#for i in range(X.shape[0]):
-#    for j in range(X.shape[2]):
-#        X_noise[i, :, j]= waveletSmooth(X[i, :, j], wavelet="db4", level=1, title=None )
+for i in range(X.shape[0]):
+    for j in range(X.shape[2]):
+        X_noise[i, :, j]= waveletSmooth(X[i, :, j], wavelet="db4", level=1, title=None )
 xes = [X_noise, X]
 arr_results = []
 mmm = 0
