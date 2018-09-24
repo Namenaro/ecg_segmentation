@@ -1,5 +1,6 @@
 import numpy as np
 
+OFFSET = 700 # специфика датасета - разметка начинается не сразу и идет не до конца
 def generator(X,Y, win_len, batch_size, num_leads_signal=12):
     """
 
@@ -17,7 +18,7 @@ def generator(X,Y, win_len, batch_size, num_leads_signal=12):
         batch_x = []
         batch_y = []
         for i in range(0, batch_size):
-            starting_position = np.random.randint(0, all_ecg_len - win_len)
+            starting_position = np.random.randint(OFFSET, all_ecg_len - win_len - OFFSET)
             ending_position = starting_position + win_len
             rand_pacient_id = np.random.randint(0, num_pacients)
 
