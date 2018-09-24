@@ -13,6 +13,7 @@ from keras.models import (
 
 from metrics import Metrics
 
+
 def make_model():
     num_leads_signal = 12
     model = Sequential()
@@ -23,16 +24,31 @@ def make_model():
     model.add(MaxPooling1D(pool_size=2))
     model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
     model.add(MaxPooling1D(pool_size=2))
+    model.add(Conv1D(8, kernel_size=5,
+                     activation=K.elu,
+                     input_shape=(None, num_leads_signal), padding='same'))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
+    model.add(MaxPooling1D(pool_size=2))
     model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
     model.add(MaxPooling1D(pool_size=2))
-    model.add(Conv1D(8, kernel_size=3, activation=K.elu, padding='same'))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
     model.add(MaxPooling1D(pool_size=2))
 
-    model.add(Bidirectional(LSTM(50, return_sequences=True)))
+    model.add(Bidirectional(LSTM(30, return_sequences=True)))
+
     model.add(UpSampling1D(2))
-    model.add(Conv1D(8, kernel_size=3, activation=K.elu, padding='same'))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
     model.add(UpSampling1D(2))
     model.add(Conv1D(8, kernel_size=5, activation=K.elu, padding='same'))
     model.add(UpSampling1D(2))

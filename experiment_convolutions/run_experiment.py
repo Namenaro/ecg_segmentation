@@ -17,8 +17,24 @@ def RUN():
 
     # модели участвующие в эксперименте
     arr_models = {
-        model_a.make_model: "model a",
-        model_b.make_model: "model b"
+        model1.make_model: "model 1 - 1 layer (32x8) 50 h lstm",
+        model2.make_model: "model 2 - 1 layer (32x8) 30 h lstm",
+        model3.make_model: "model 3 - 2 layers (32x8) 30 h lstm",
+        model4.make_model: "model 4 - 3 layers (32x8) 30 h lstm",
+        model5.make_model: "model 5- 4 layers (16X5orx3) 30 h lstm",
+        model6.make_model: "model 6 - 4 layers (32x8) 30 h lstm",
+        model7.make_model: "model 7 - 4 layers (64x8) 30 h lstm",
+        model8.make_model: "model 8 - 5 layers (32x8) 30 h lstm",
+        model9.make_model: "model 9 - 6 layers (32x8) 30 h lstm",
+        model10.make_model: "model 10- 7 layers (32x8) 30 h lstm",
+        model11.make_model: "model 11 - 7 layers (16x5) 15 h lstm",
+        model12.make_model: "model 12 - 7 layers 8x8 30 h lstm",
+        model13.make_model: "model 13 - 1 layer (32x8) 80 h lstm",
+        model14.make_model: "model 14 - 1 layer (32x8) 60 h lstm",
+        model15.make_model: "model 15 - 8 layers (8x8) 30 h lstm",
+        model16.make_model: "model 16 - 8 layers (8x5) 30 h lstm",
+        model17.make_model: "model 17 - 8 layers (8x8) 10 h lstm",
+        model18.make_model: "model 17 - 6 layers (32x8) 10 h lstm"
 
     }
 
@@ -39,8 +55,8 @@ def RUN():
 
     # common parameters in all models:
     win_len = 3072
-    batch_size=3
-    epochs=1
+    batch_size=10
+    epochs=13
 
 
     arr_summaries = []

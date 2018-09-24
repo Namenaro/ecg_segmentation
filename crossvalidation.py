@@ -2,7 +2,7 @@ from sklearn.model_selection import KFold
 import numpy as np
 
 from train import train
-from experiment_convolutions.models import model_c
+
 from dataset import load_dataset
 
 
@@ -59,6 +59,7 @@ def make_crossvalidation(kfold_splits, create_model, X, Y, win_len, model_name, 
 
 if __name__ == "__main__":
     # пример вызова
+    from experiment_convolutions.models import model2
     win_len = 2992
     name = "mymodel_c"
     batch_size=10

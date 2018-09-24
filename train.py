@@ -3,7 +3,7 @@ import os
 from sklearn.model_selection import train_test_split
 
 from dataset import load_dataset
-from experiment_convolutions.models.model_c import make_model
+
 from generator import generator
 from utils import *
 
@@ -27,6 +27,7 @@ def train(model, model_name, x_test, x_train, y_test, y_train, win_len, batch_si
     return history
 
 if __name__ == "__main__":
+    from experiment_convolutions.models.model2 import make_model
     # пример использования
     xy = load_dataset()
     X = xy["x"]
