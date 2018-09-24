@@ -4,15 +4,29 @@ import shutil
 import logging
 import pandas as pd
 from train import train
-from experiment_bwr.models import model_a
-import BaselineWanderRemoval as bwr
+from experiment_noise.models import model_a
 from sklearn.model_selection import train_test_split
 import numpy as np
 
 from crossvalidation import make_crossvalidation
 from dataset import load_dataset
+import pywt
+from statsmodels.robust import mad
 
-folder_for_results = "experiment_bwr_results"
+def waveletSmooth( x, wavelet="db4", level=1, title=None ):
+    # calculate the wavelet coefficients
+    coeff = pywt.wavedec( x, wavelet, mode="per" )
+    # calculate a threshold
+    sigma = mad( coeff[-level] )
+    # changing this threshold also changes the behavior,
+    # but I have not played with this very much
+    uthresh = sigma * np.sqrt( 2*np.log( len( x ) ) )
+    coeff[1:] = ( pywt.threshold( i, value=uthresh, mode="soft" ) for i in coeff[1:] )
+    # reconstruct the signal using the thresholded coefficients
+    y = pywt.waverec( coeff, wavelet, mode="per" )
+    return y
+
+folder_for_results = "experiment_noise_results"
 
 logging.basicConfig(filename='log.log', level=logging.DEBUG)
 
@@ -31,17 +45,17 @@ epochs=10
 xy = load_dataset()
 X = xy["x"]
 Y = xy["y"]
-X_bwr = np.copy(X)
+X_noise = np.copy(X)
 
-for i in range(X.shape[0]):
-    for j in range(X.shape[2]):
-        X_bwr[i, :, j] = bwr.fix_baseline_wander(X[i, :, j], 500)
-xes = [X_bwr, X]
+#for i in range(X.shape[0]):
+#    for j in range(X.shape[2]):
+#        X_noise[i, :, j]= waveletSmooth(X[i, :, j], wavelet="db4", level=1, title=None )
+xes = [X_noise, X]
 arr_results = []
 mmm = 0
 for data in xes:
     mmm += 1
-    logging.info("start bwr= " + str(mmm) + " at " + str(time.ctime()))
+    logging.info("start noise= " + str(mmm) + " at " + str(time.ctime()))
     result= make_crossvalidation(kfold_splits=4,
                                  create_model=model_a.make_model,
                                  X=data, Y=Y,
@@ -54,7 +68,7 @@ for data in xes:
 
 # сохраняем результаты в файл
 table_results = pd.DataFrame(arr_results)
-table_results.to_csv('bwr_experiment_results.txt', header=True, index=True, sep='\t', mode='a')
+table_results.to_csv('noise_experiment_results.txt', header=True, index=True, sep='\t', mode='a')
 
 print(table_results)
 os.chdir(cwd)
