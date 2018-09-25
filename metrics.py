@@ -194,11 +194,15 @@ def statistics(y_true, y_pred):
         df_stat.at['fn', 'end_t'] += len(fn)
         df_errors.at[0, 'end_t'].extend(error)
 
+
     for index in df_res.columns:
+        for i in range(len(df_errors.at[0, index])):
+            df_errors.at[0, index][i] = df_errors.loc[0, index][i]/freq*1000
+        #df_errors.at[0, index] = df_errors.loc[0, index]/500
         df_res.at['Se', index] = df_stat.loc['tp', index] / (df_stat.loc['tp', index] + df_stat.loc['fn', index])
         df_res.at['PPV', index] = df_stat.loc['tp', index] / (df_stat.loc['tp', index] + df_stat.loc['fp', index])
-        df_res.at['sigma^2', index] = np.var(df_errors.loc[0, index]) * 1000
-        df_res.at['m', index] = np.mean(df_errors.loc[0, index]) * 1000
+        df_res.at['sigma^2', index] = np.var(df_errors.loc[0, index])
+        df_res.at['m', index] = np.mean(df_errors.loc[0, index])
     return df_res
 
 def preproc (sample):
@@ -222,7 +226,7 @@ if __name__ == "__main__":
     from keras.models import load_model
     from utils import *
 
-    xy = load_dataset()
+    xy = load_dataset(fixed_baseline=False)
     X = xy["x"]
     Y = xy["y"]
 
@@ -234,4 +238,4 @@ if __name__ == "__main__":
 
     pred_test = np.array(model.predict(X_test))
 
-    print(statistics(Y_test[:,1000:4000], pred_test[:,1000:4000]).round(2))
+    print(statistics(Y_test[:,1000:4000], pred_test[:,1000:4000]).round(4))
