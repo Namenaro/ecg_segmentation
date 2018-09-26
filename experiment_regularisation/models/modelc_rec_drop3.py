@@ -14,7 +14,7 @@ from keras.models import (
 
 from metrics import Metrics
 
-droput_rate = 0.6
+droput_rate = 0.4
 def make_model():
     num_leads_signal = 12
     model = Sequential()

@@ -39,6 +39,8 @@ def make_model():
     model.add(Conv1D(32, kernel_size=8, activation=K.elu, padding='same'))
     model.add(UpSampling1D(2))
     model.add(Conv1D(32, kernel_size=8, activation=K.elu, padding='same'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(32, kernel_size=8, activation=K.elu, padding='same'))
     model.add(Dense(4, activation='softmax'))
 
     metric = Metrics()

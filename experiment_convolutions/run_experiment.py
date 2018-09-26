@@ -14,7 +14,9 @@ from metrics import statistics
 
 def RUN():
     experiment_res_name = "experiment_convolutions_results"
-
+    arr_models1 = {
+        model10.make_model: "model 10- 7 layers (32x8) 30 h lstm"
+    }
     # модели участвующие в эксперименте
     arr_models = {
         model1.make_model: "model 1 - 1 layer (32x8) 50 h lstm",
@@ -55,8 +57,8 @@ def RUN():
 
     # common parameters in all models:
     win_len = 3072
-    batch_size=10
-    epochs=13
+    batch_size=25
+    epochs=11
 
 
     arr_summaries = []

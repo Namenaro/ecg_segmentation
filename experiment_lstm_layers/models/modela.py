@@ -31,8 +31,8 @@ def make_model():
     model.add(MaxPooling1D(pool_size=2))
 
 
-    model.add(Bidirectional(LSTM(20, return_sequences=True)))
-    model.add(Bidirectional(LSTM(20, return_sequences=True)))
+    model.add(Bidirectional(LSTM(30, return_sequences=True)))
+
 
     model.add(UpSampling1D(2))
     model.add(Conv1D(32, kernel_size=8, activation=K.elu, padding='same'))
