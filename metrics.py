@@ -197,7 +197,7 @@ def statistics(y_true, y_pred):
 
     for index in df_res.columns:
         for i in range(len(df_errors.at[0, index])):
-            df_errors.at[0, index][i] = df_errors.loc[0, index][i]/freq*1000
+            df_errors.at[0, index][i] = df_errors.loc[0, index][i]*1000
         #df_errors.at[0, index] = df_errors.loc[0, index]/500
         df_res.at['Se', index] = df_stat.loc['tp', index] / (df_stat.loc['tp', index] + df_stat.loc['fn', index])
         df_res.at['PPV', index] = df_stat.loc['tp', index] / (df_stat.loc['tp', index] + df_stat.loc['fp', index])
