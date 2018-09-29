@@ -13,30 +13,30 @@ from train import train
 from metrics import statistics
 
 def RUN():
-    experiment_res_name = "experiment_convolutions_results"
+    experiment_res_name = "experiment_convolutions_results_LONG"
     arr_models1 = {
-        model10.make_model: "model 10- 7 layers (32x8) 30 h lstm"
+        model18.make_model: "model 18 - 8 layers (32x8) 30 h lstm"
     }
     # модели участвующие в эксперименте
     arr_models = {
         model1.make_model: "model 1 - 1 layer (32x8) 50 h lstm",
-        model2.make_model: "model 2 - 1 layer (32x8) 30 h lstm",
+        #model2.make_model: "model 2 - 1 layer (32x8) 30 h lstm",
         model3.make_model: "model 3 - 2 layers (32x8) 30 h lstm",
         model4.make_model: "model 4 - 3 layers (32x8) 30 h lstm",
-        model5.make_model: "model 5- 4 layers (16X5orx3) 30 h lstm",
+        #model5.make_model: "model 5- 4 layers (16X5orx3) 30 h lstm",
         model6.make_model: "model 6 - 4 layers (32x8) 30 h lstm",
-        model7.make_model: "model 7 - 4 layers (64x8) 30 h lstm",
+        model7.make_model: "model 7 - 4 layers (64x8) 30 h lstm---2",
         model8.make_model: "model 8 - 5 layers (32x8) 30 h lstm",
         model9.make_model: "model 9 - 6 layers (32x8) 30 h lstm",
         model10.make_model: "model 10- 7 layers (32x8) 30 h lstm",
-        model11.make_model: "model 11 - 7 layers (16x5) 15 h lstm",
-        model12.make_model: "model 12 - 7 layers 8x8 30 h lstm",
-        model13.make_model: "model 13 - 1 layer (32x8) 80 h lstm",
+        #model11.make_model: "model 11 - 7 layers (16x5) 15 h lstm",
+        #model12.make_model: "model 12 - 7 layers 8x8 30 h lstm",
+        #model13.make_model: "model 13 - 1 layer (32x8) 80 h lstm",
         model14.make_model: "model 14 - 1 layer (32x8) 60 h lstm",
         model15.make_model: "model 15 - 8 layers (8x8) 30 h lstm",
-        model16.make_model: "model 16 - 8 layers (8x5) 30 h lstm",
-        model17.make_model: "model 17 - 8 layers (8x8) 10 h lstm",
-        model18.make_model: "model 17 - 6 layers (32x8) 10 h lstm"
+        model16.make_model: "model 16 - 7 layers (32X8) 30 h lstm---2",
+        model17.make_model: "model 17 - 9 layers (32x8) 30 h lstm",
+        model18.make_model: "model 18 - 8 layers (32x8) 30 h lstm"
 
     }
 
@@ -58,7 +58,7 @@ def RUN():
     # common parameters in all models:
     win_len = 3072
     batch_size=25
-    epochs=11
+    epochs=30
 
 
     arr_summaries = []
@@ -96,9 +96,9 @@ def RUN():
         arr_summaries.append(summary)
 
         pred_test = np.array(model.predict(xtest))
-        stats = statistics(ytest[:, 1000:4000], pred_test[:, 1000:4000]).round(2)
+        stats = statistics(ytest[:, 1000:4000], pred_test[:, 1000:4000]).round(4)
         stats_dict[model_description] = stats
-        stats.to_csv("stats_"+model_description + '.csv')
+        stats.to_csv("stats_"+model_description + '.txt')
         print(stats)
 
     # save results into file:

@@ -28,7 +28,7 @@ def get_stats_from_folder_with_models():
             print(frame)
             models_and_their_stats[case_id]= frame
             model=None
-        return models_and_their_stats
+    return models_and_their_stats
 
 def compare_models_by_stats(models_and_their_stats):
     pass

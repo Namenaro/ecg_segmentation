@@ -29,7 +29,7 @@ def make_model():
     model.add(MaxPooling1D(pool_size=2))
 
 
-    model.add(Bidirectional(LSTM(50, return_sequences=True)))
+    model.add(Bidirectional(LSTM(30, return_sequences=True)))
 
 
     model.add(UpSampling1D(2))

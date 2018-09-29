@@ -11,17 +11,17 @@ from crossvalidation import make_crossvalidation
 from dataset import load_dataset
 from metrics import *
 
-folder_for_results = "experiment_lstm_layers_results"
+folder_for_results = "experiment_lstm_layers_results_LONG_LONG_long"
 
 logging.basicConfig(filename='log.log',level=logging.DEBUG)
 
 # модели участвующие в эксперименте
 arr_models = {
-    modela.make_model:"model 1 lstm",
-    modelb.make_model:"model 2 sltm",
-    modelc.make_model:"model 3 lstm",
-    modele.make_model:"model 4 lstm",
-    modelf.make_model:"model 5 lstm"
+    modela.make_model:"model 1 lstm"
+    #modelb.make_model:"model 2 sltm",
+    #modelc.make_model:"model 3 lstm",
+    #modele.make_model:"model 4 lstm",
+    #modelf.make_model:"model 5 lstm"
 }
 
 # создает отлельную папку под результаты эксперимента и делаем ее на время умолчательной
@@ -35,13 +35,13 @@ os.chdir(folder_for_results)
 # параметры эксперимента
 win_len = 3072
 batch_size=10
-epochs=14
+epochs=57
 xy = load_dataset()
 X = xy["x"]
 Y = xy["y"]
 
 arr_results = []
-xtrain, xtest, ytrain, ytest = train_test_split(X, Y, test_size=0.33, random_state=42)
+xtrain, xtest, ytrain, ytest = train_test_split(X, Y, test_size=0.33, random_state=11)
 for make_model, model_description in arr_models.items():
     logging.info("start " + model_description + " at " + str(time.ctime()))
     model = make_model()

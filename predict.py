@@ -23,7 +23,7 @@ def predict():
         draw_prediction_and_reality(X[i,0:time_len,:],
                                     prediction=y_predicted[i],
                                     right_answer=Y[i,0:time_len,:],
-                                    plot_name="predicted" + str(i))
+                                    plot_name="Predicted2" + str(i))
 
 
 

@@ -27,7 +27,7 @@ os.chdir(folder_for_results)
 # параметры эксперимента
 win_len = 3072
 batch_size=10
-epochs=10
+epochs=15
 xy = load_dataset()
 X = xy["x"]
 Y = xy["y"]

@@ -30,7 +30,7 @@ def make_model():
 
 
     model.add(Bidirectional(LSTM(30, return_sequences=True)))
-
+    model.add(Bidirectional(LSTM(30, return_sequences=True)))
 
     model.add(UpSampling1D(2))
     model.add(Conv1D(64, kernel_size=8, activation=K.elu, padding='same'))

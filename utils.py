@@ -19,6 +19,15 @@ def save_history(history, name):
     plt.legend(['train loss', 'test loss', 'train se','test se', 'val ppv'], loc='upper left')
     plt.savefig(os.path.join(folder_name, name+"_loss.png"))
     plt.clf()
+    h = {}
+    h['loss']=history.history['loss']
+    h['val_loss'] = history.history['val_loss']
+    h['se'] = history.history['Se']
+    h['val_se'] = history.history['val_Se']
+    outfile = open(name+'history.pkl', 'wb')
+    pkl.dump(h, outfile)
+    outfile.close()
+
 
 def restore_set_from_pkl(path):
     infile = open(path, 'rb')
